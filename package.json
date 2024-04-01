@@ -1,0 +1,16 @@
+{
+  "name": "hebcal",
+  "version": "1.0.0",
+  "description": "This is a NodeJS program that uses the [hebcal](https://github.com/hebcal/hebcal-es6) library to print this week's zmaning to the console.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "Abraham Neuwirth <abeneuwirth@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@hebcal/core": "^5.2.2",
+    "dotiw": "^1.0.4"
+  }
+}
