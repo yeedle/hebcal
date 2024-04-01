@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@hebcal/core": "^5.2.2",
-    "dotiw": "^1.0.4"
+    "dotiw": "^1.0.4",
+    "readline-sync": "^1.4.10"
   }
 }

@@ -1,5 +1,10 @@
 import dotiw from "dotiw";
 import { Location, Zmanim, HDate } from "@hebcal/core";
+import readline from "readline-sync";
+
+const rules = ["Gra", "MGA", "MGA 16.1"];
+const index = readline.keyInSelect(rules, "select your minhag");
+const rule = rules[index]
 
 const newYork = Location.lookup("New York");
 const today = new HDate();
@@ -44,10 +49,11 @@ export function getZmanimForDay(index) {
   const date = sunday.onOrAfter(index); // get the {index}th day of the week
   const zmanim = new Zmanim(newYork, date); // create a zmanim object for the day
   const isToday = date.deltaDays(today) === 0; // is the day of the week today?
+ // const rule = "MGA"
 
   // get the shma and tefilla times for the day
-  const shmaTimestamp = zmanim.sofZmanShma();
-  const tefillaTimestamp = zmanim.sofZmanTfilla();
+  const shmaTimestamp = zemanimOptions(zmanim).shma;
+  const tefillaTimestamp = zemanimOptions(zmanim).tfilla;
 
   // format the shma and tefilla times based on whether it's today or not
   const shma = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
@@ -60,4 +66,27 @@ export function getZmanimForDay(index) {
     shma,
     tefilla,
   };
+}
+
+export function zemanimOptions(zmanim) {
+
+
+  if (rule === "Gra") {
+    return {
+      shma: zmanim.sofZmanShma(),
+      tfilla: zmanim.sofZmanTfilla(),
+    };
+  }
+  if (rule === "MGA") {
+    return {
+      shma: zmanim.sofZmanShmaMGA(),
+      tfilla: zmanim.sofZmanTfillaMGA(),
+    };
+  }
+  if (rule === "MGA 16.1") {
+    return {
+      shma: zmanim.sofZmanShmaMGA16Point1(),
+      tfilla: zmanim.sofZmanTfillaMGA16Point1(),
+    };
+  }
 }
