@@ -1,5 +1,5 @@
 import dotiw from "dotiw";
-import { Location, Zmanim, HDate } from "@hebcal/core";
+import { Location, Zmanim, HDate, Sedra } from "@hebcal/core";
 
 const newYork = Location.lookup("New York");
 const today = new HDate();
@@ -39,15 +39,16 @@ export function format(datetime) {
  * @param {number} index
  * @returns {{day: string, shma: string, tefilla: string}} an object containing the day of the week, shma, and tefilla times for that day
  */
-export function getZmanimForDay(index) {
+export function getZmanimForDay(index,rule) {
   // first sunday of the week
   const date = sunday.onOrAfter(index); // get the {index}th day of the week
   const zmanim = new Zmanim(newYork, date); // create a zmanim object for the day
   const isToday = date.deltaDays(today) === 0; // is the day of the week today?
+ // const rule = "MGA"
 
   // get the shma and tefilla times for the day
-  const shmaTimestamp = zmanim.sofZmanShma();
-  const tefillaTimestamp = zmanim.sofZmanTfilla();
+  const shmaTimestamp = zemanimOptions(zmanim, rule).shma;
+  const tefillaTimestamp = zemanimOptions(zmanim, rule).tfilla;
 
   // format the shma and tefilla times based on whether it's today or not
   const shma = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
@@ -55,9 +56,84 @@ export function getZmanimForDay(index) {
     ? reltativeFormat(tefillaTimestamp)
     : format(tefillaTimestamp);
 
+  const dayRander = weekday(date)
+
   return {
-    day: date.render(),
+    day: dayRander,
     shma,
     tefilla,
   };
+}
+
+export function zemanimOptions(zmanim, rule) {
+
+  if (rule === "MGA") {
+    return {
+      shma: zmanim.sofZmanShmaMGA(),
+      tfilla: zmanim.sofZmanTfillaMGA(),
+    };
+  }
+  if (rule === "MGA 16.1") {
+    return {
+      shma: zmanim.sofZmanShmaMGA16Point1(),
+      tfilla: zmanim.sofZmanTfillaMGA16Point1(),
+    };
+  }
+  else {
+    return {
+      shma: zmanim.sofZmanShma(),
+      tfilla: zmanim.sofZmanTfilla(),
+    };
+  }
+}
+
+
+export const ansi={
+  color: (c)=> `\x1B[${c}m`,
+  up: (r)=> `\x1B[${r}A`,
+  down: (r)=> `\x1B[${r}B`,
+  gray: `\x1B[100m`,
+  underline: `\x1B[4m`,
+  upperline: `\x1B[53m`,
+  reset: `\x1B[0m`,
+}
+
+export function renderToday(){
+  const todayIndex = today.getDay();
+  const row = 8 - today.getDay();
+  
+  const thursday = sunday.onOrAfter(4);
+  const thursdayLen = weekday(thursday).length;
+  const todayLen = weekday(today).length;
+  const padding = " ".repeat((thursdayLen - todayLen) / 2)
+  const extraSpace = (thursdayLen - todayLen) % 2 === 0 ? "" : " ";
+
+  console.log(`${ansi.up(row)}${ansi.color(31)}│  Today  │ ${padding}'${getZmanimForDay(todayIndex).day}'${padding+extraSpace} | '${getZmanimForDay(todayIndex).shma}' | '${getZmanimForDay(todayIndex).tefilla}' |${ansi.reset}${ansi.down(row-1)}`);
+}
+
+export function flipString(str) {
+  return str.split('').reverse().join('');
+}
+
+export function weekday(today) {
+  const sedras = new Sedra(today.getFullYear(),false)
+  const sedra = sedras.getString(today,"he-x-NoNikud")
+
+  const yiddishWeekdays = [
+      "זונטאג", // Sunday
+      "מאנטאג", // Monday
+      "דינסטאג", // Tuesday
+      "מיטוואך", // Wednesday
+      "דאנערשטאג", // Thursday
+      "פרײטאג", // Friday
+      "שבת" // Saturday
+  ];
+
+  const hWeekday = yiddishWeekdays[today.getDay()]
+  const day = `${hWeekday} ${sedra}`
+
+  const flippedDay = flipString(day)
+
+   return flippedDay
+
 }
