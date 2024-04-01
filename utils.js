@@ -1,6 +1,5 @@
 import dotiw from "dotiw";
 import { Location, Zmanim, HDate, Sedra } from "@hebcal/core";
-import readline from "readline-sync";
 
 const newYork = Location.lookup("New York");
 const today = new HDate();
