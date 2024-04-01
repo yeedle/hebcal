@@ -1,4 +1,9 @@
 import dotiw from "dotiw";
+import { Location, Zmanim, HDate } from "@hebcal/core";
+
+const newYork = Location.lookup("New York");
+const today = new HDate();
+const sunday = today.onOrBefore(0);
 
 /**
  * Formats a timestamp as a relative time string.
@@ -34,7 +39,8 @@ export function format(datetime) {
  * @param {number} index
  * @returns {{day: string, shma: string, tefilla: string}} an object containing the day of the week, shma, and tefilla times for that day
  */
-export function getZmaninForDay(index) {
+export function getZmanimForDay(index) {
+  // first sunday of the week
   const date = sunday.onOrAfter(index); // get the {index}th day of the week
   const zmanim = new Zmanim(newYork, date); // create a zmanim object for the day
   const isToday = date.deltaDays(today) === 0; // is the day of the week today?
