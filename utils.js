@@ -1,5 +1,5 @@
 import dotiw from "dotiw";
-import { Location, Zmanim, HDate } from "@hebcal/core";
+import { Location, Zmanim, HDate ,Sedra } from "@hebcal/core";
 
 const newYork = Location.lookup("New York");
 const today = new HDate();
@@ -54,10 +54,11 @@ export function getZmanimForDay(index) {
   const tefilla = isToday
     ? reltativeFormat(tefillaTimestamp)
     : format(tefillaTimestamp);
-
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   return {
-    day: date.render(),
+    day: `${daysOfWeek[date.getDay()]} ${new Sedra(5784).lookup(new HDate).parsha}`,
     shma,
-    tefilla,
+    tefilla
   };
 }
+
