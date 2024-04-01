@@ -3,7 +3,7 @@ import { reltativeFormat, format } from "./formatting.js";
 
 const newYork = Location.lookup("New York");
 const today = new HDate();
-const sunday = today.onOrBefore(0);
+const sunday = today.onOrBefore(0); // first sunday of the week
 
 /**
  * Gets the shma and tefilla times for the day of the week at the given index (e.g. 0 for Sunday, 1 for Monday, etc.)
@@ -15,9 +15,11 @@ function getZmaninForDay(index) {
   const zmanim = new Zmanim(newYork, date); // create a zmanim object for the day
   const isToday = date.deltaDays(today) === 0; // is the day of the week today?
 
-  // get the shma and tefilla times for the day, format them based on whether it's today or not
+  // get the shma and tefilla times for the day
   const shmaTimestamp = zmanim.sofZmanShma();
   const tefillaTimestamp = zmanim.sofZmanTfilla();
+
+  // format the shma and tefilla times based on whether it's today or not
   const shma = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
   const tefilla = isToday
     ? reltativeFormat(tefillaTimestamp)
