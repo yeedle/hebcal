@@ -90,3 +90,21 @@ export function zemanimOptions(zmanim) {
     };
   }
 }
+
+
+export const ansi={
+  color: (c)=> `\x1B[${c}m`,
+  up: (r)=> `\x1B[${r}A`,
+  down: (r)=> `\x1B[${r}B`,
+  gray: `\x1B[100m`,
+  underline: `\x1B[4m`,
+  upperline: `\x1B[53m`,
+  reset: `\x1B[0m`,
+}
+
+export function renderToday(){
+  const todayIndex = today.getDay();
+  const row = 8 - today.getDay();
+
+  console.log(`${ansi.up(row)}${ansi.color(31)}│  Today  │ '${getZmanimForDay(todayIndex).day}' | '${getZmanimForDay(todayIndex).shma}' | '${getZmanimForDay(todayIndex).tefilla}' |${ansi.reset}${ansi.down(row-1)}`);
+}
