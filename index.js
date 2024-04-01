@@ -10,4 +10,4 @@ const daysOfTheWeek = [0, 1, 2, 3, 4, 5, 6].map(day => getZmanimForDay(day, rule
 
 
 console.table(daysOfTheWeek);
-renderToday(rule)
+renderToday()

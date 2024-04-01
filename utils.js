@@ -2,10 +2,6 @@ import dotiw from "dotiw";
 import { Location, Zmanim, HDate, Sedra } from "@hebcal/core";
 import readline from "readline-sync";
 
-const rules = ["Gra", "MGA", "MGA 16.1"];
-const index = readline.keyInSelect(rules, "select your minhag");
-const rule = rules[index]
-
 const newYork = Location.lookup("New York");
 const today = new HDate();
 const sunday = today.onOrBefore(0);
@@ -103,7 +99,7 @@ export const ansi={
   reset: `\x1B[0m`,
 }
 
-export function renderToday(rule){
+export function renderToday(){
   const todayIndex = today.getDay();
   const row = 8 - today.getDay();
   
