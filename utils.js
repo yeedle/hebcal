@@ -1,10 +1,5 @@
 import dotiw from "dotiw";
 import { Location, Zmanim, HDate } from "@hebcal/core";
-import readline from "readline-sync";
-
-const rules = ["Gra", "MGA", "MGA 16.1"];
-const index = readline.keyInSelect(rules, "select your minhag");
-const rule = rules[index]
 
 const newYork = Location.lookup("New York");
 const today = new HDate();
@@ -44,7 +39,7 @@ export function format(datetime) {
  * @param {number} index
  * @returns {{day: string, shma: string, tefilla: string}} an object containing the day of the week, shma, and tefilla times for that day
  */
-export function getZmanimForDay(index) {
+export function getZmanimForDay(index,rule) {
   // first sunday of the week
   const date = sunday.onOrAfter(index); // get the {index}th day of the week
   const zmanim = new Zmanim(newYork, date); // create a zmanim object for the day
@@ -52,8 +47,8 @@ export function getZmanimForDay(index) {
  // const rule = "MGA"
 
   // get the shma and tefilla times for the day
-  const shmaTimestamp = zemanimOptions(zmanim).shma;
-  const tefillaTimestamp = zemanimOptions(zmanim).tfilla;
+  const shmaTimestamp = zemanimOptions(zmanim, rule).shma;
+  const tefillaTimestamp = zemanimOptions(zmanim, rule).tfilla;
 
   // format the shma and tefilla times based on whether it's today or not
   const shma = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
@@ -68,15 +63,8 @@ export function getZmanimForDay(index) {
   };
 }
 
-export function zemanimOptions(zmanim) {
+export function zemanimOptions(zmanim, rule) {
 
-
-  if (rule === "Gra") {
-    return {
-      shma: zmanim.sofZmanShma(),
-      tfilla: zmanim.sofZmanTfilla(),
-    };
-  }
   if (rule === "MGA") {
     return {
       shma: zmanim.sofZmanShmaMGA(),
@@ -87,6 +75,12 @@ export function zemanimOptions(zmanim) {
     return {
       shma: zmanim.sofZmanShmaMGA16Point1(),
       tfilla: zmanim.sofZmanTfillaMGA16Point1(),
+    };
+  }
+  else {
+    return {
+      shma: zmanim.sofZmanShma(),
+      tfilla: zmanim.sofZmanTfilla(),
     };
   }
 }
@@ -102,9 +96,9 @@ export const ansi={
   reset: `\x1B[0m`,
 }
 
-export function renderToday(){
+export function renderToday(rule){
   const todayIndex = today.getDay();
   const row = 8 - todayIndex;
 
-  console.log(`${ansi.up(row)}${ansi.color(31)}│  Today  │ '${getZmanimForDay(todayIndex).day}' | '${getZmanimForDay(todayIndex).shma}' | '${getZmanimForDay(todayIndex).tefilla}' |${ansi.reset}${ansi.down(row-1)}`);
+  console.log(`${ansi.up(row)}${ansi.color(31)}│  Today  │ '${getZmanimForDay(todayIndex, rule).day}' | '${getZmanimForDay(todayIndex, rule).shma}' | '${getZmanimForDay(todayIndex, rule).tefilla}' |${ansi.reset}${ansi.down(row-1)}`);
 }
