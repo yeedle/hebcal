@@ -104,7 +104,7 @@ export const ansi={
 
 export function renderToday(){
   const todayIndex = today.getDay();
-  const row = 8 - today.getDay();
+  const row = 8 - todayIndex;
 
   console.log(`${ansi.up(row)}${ansi.color(31)}│  Today  │ '${getZmanimForDay(todayIndex).day}' | '${getZmanimForDay(todayIndex).shma}' | '${getZmanimForDay(todayIndex).tefilla}' |${ansi.reset}${ansi.down(row-1)}`);
 }
