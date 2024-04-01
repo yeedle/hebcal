@@ -34,7 +34,7 @@ export function format(datetime) {
  * @param {number} index
  * @returns {{day: string, shma: string, tefilla: string}} an object containing the day of the week, shma, and tefilla times for that day
  */
-function getZmaninForDay(index) {
+export function getZmaninForDay(index) {
   const date = sunday.onOrAfter(index); // get the {index}th day of the week
   const zmanim = new Zmanim(newYork, date); // create a zmanim object for the day
   const isToday = date.deltaDays(today) === 0; // is the day of the week today?
