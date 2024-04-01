@@ -1,5 +1,5 @@
 import dotiw from "dotiw";
-import { Location, Zmanim, HDate } from "@hebcal/core";
+import { Location, Zmanim, HDate, Sedra } from "@hebcal/core";
 import readline from "readline-sync";
 
 const rules = ["Gra", "MGA", "MGA 16.1"];
@@ -61,8 +61,10 @@ export function getZmanimForDay(index) {
     ? reltativeFormat(tefillaTimestamp)
     : format(tefillaTimestamp);
 
+  const dayRander = weekday(date)
+
   return {
-    day: date.render(),
+    day: dayRander,
     shma,
     tefilla,
   };
@@ -105,6 +107,39 @@ export const ansi={
 export function renderToday(){
   const todayIndex = today.getDay();
   const row = 8 - today.getDay();
+  
+  const thursday = sunday.onOrAfter(4);
+  const thursdayLen = weekday(thursday).length;
+  const todayLen = weekday(today).length;
+  const padding = " ".repeat((thursdayLen - todayLen) / 2)
+  const extraSpace = (thursdayLen - todayLen) % 2 === 0 ? "" : " ";
 
-  console.log(`${ansi.up(row)}${ansi.color(31)}│  Today  │ '${getZmanimForDay(todayIndex).day}' | '${getZmanimForDay(todayIndex).shma}' | '${getZmanimForDay(todayIndex).tefilla}' |${ansi.reset}${ansi.down(row-1)}`);
+  console.log(`${ansi.up(row)}${ansi.color(31)}│  Today  │ ${padding}'${getZmanimForDay(todayIndex).day}'${padding+extraSpace} | '${getZmanimForDay(todayIndex).shma}' | '${getZmanimForDay(todayIndex).tefilla}' |${ansi.reset}${ansi.down(row-1)}`);
+}
+
+export function flipString(str) {
+  return str.split('').reverse().join('');
+}
+
+export function weekday(today) {
+  const sedras = new Sedra(today.getFullYear(),false)
+  const sedra = sedras.getString(today,"he-x-NoNikud")
+
+  const yiddishWeekdays = [
+      "זונטאג", // Sunday
+      "מאנטאג", // Monday
+      "דינסטאג", // Tuesday
+      "מיטוואך", // Wednesday
+      "דאנערשטאג", // Thursday
+      "פרײטאג", // Friday
+      "שבת" // Saturday
+  ];
+
+  const hWeekday = yiddishWeekdays[today.getDay()]
+  const day = `${hWeekday} ${sedra}`
+
+  const flippedDay = flipString(day)
+
+   return flippedDay
+
 }
