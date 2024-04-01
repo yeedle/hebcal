@@ -19,7 +19,7 @@ const daysOfTheWeek = [0, 1, 2, 3, 4, 5, 6].map((index) => {
     : format(tefillaTimestamp);
 
   return {
-    day: date.renderGematriya(),
+    day: date.render(),
     shma,
     tefilla,
   };
