@@ -11,15 +11,15 @@ const daysOfTheWeek = [0, 1, 2, 3, 4, 5, 6].map((index) => {
   const isToday = date.deltaDays(today) === 0; // is the day of the week today?
 
   // get the shma and tefilla times for the day, format them based on whether it's today or not
-  let shma = isToday
-    ? reltativeFormat(zmanim.sofZmanShma())
-    : format(zmanim.sofZmanShma());
+  const shmaTimestamp = zmanim.sofZmanShma();
+  const tefillaTimestamp = zmanim.sofZmanTfilla();
+  const shma = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
   const tefilla = isToday
-    ? reltativeFormat(zmanim.sofZmanTfilla())
-    : format(zmanim.sofZmanTfilla());
+    ? reltativeFormat(tefillaTimestamp)
+    : format(tefillaTimestamp);
 
   return {
-    day: date.render(),
+    day: date.renderGematriya(),
     shma,
     tefilla,
   };
