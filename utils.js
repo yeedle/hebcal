@@ -4,7 +4,7 @@ import { Location, Zmanim, HDate ,Sedra } from "@hebcal/core";
 const newYork = Location.lookup("New York");
 const today = new HDate();
 const sunday = today.onOrBefore(0);
-
+const parsha = new Sedra(today.getFullYear()).lookup(today).parsha
 /**
  * Formats a timestamp as a relative time string.
  * For example, "in 2 hours 3 minutes 4 seconds" or "3 hours 4 minutes 5 seconds ago".
@@ -56,9 +56,9 @@ export function getZmanimForDay(index) {
     : format(tefillaTimestamp);
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   return {
-    day: `${daysOfWeek[date.getDay()]} ${new Sedra(5784).lookup(new HDate).parsha}`,
+    day: `${daysOfWeek[date.getDay()]} ${parsha}`,
     shma,
-    tefilla
+    tefilla,
   };
 }
 
