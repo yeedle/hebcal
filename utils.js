@@ -47,17 +47,20 @@ export function getZmanimForDay(index) {
 
   // get the shma and tefilla times for the day
   const shmaTimestamp = zmanim.sofZmanShma();
+  const shmaMGATimestamp =zmanim.sofZmanShmaMGA();
   const tefillaTimestamp = zmanim.sofZmanTfilla();
-
+  const tefillaMGATimestamp =zmanim.sofZmanTfillaMGA();
   // format the shma and tefilla times based on whether it's today or not
-  const shma = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
-  const tefilla = isToday
-    ? reltativeFormat(tefillaTimestamp)
-    : format(tefillaTimestamp);
+  const shma_Gra = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
+  const shma_MGA = isToday ? reltativeFormat(shmaMGATimestamp) : format(shmaMGATimestamp);
+  const tefilla_Gra = isToday? reltativeFormat(tefillaTimestamp): format(tefillaTimestamp);
+  const tefilla_MGA = isToday? reltativeFormat(tefillaMGATimestamp): format(tefillaMGATimestamp);
 
   return {
     day: date.render(),
-    shma,
-    tefilla,
+    shma_MGA,
+    shma_Gra,
+    tefilla_MGA,
+    tefilla_Gra,
   };
 }
