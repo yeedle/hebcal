@@ -46,18 +46,24 @@ export function getZmanimForDay(index) {
   const isToday = date.deltaDays(today) === 0; // is the day of the week today?
 
   // get the shma and tefilla times for the day
-  const shmaTimestamp = zmanim.sofZmanShma();
-  const tefillaTimestamp = zmanim.sofZmanTfilla();
+  const shmaMgaTimestamp = zmanim.sofZmanShmaMGA();
+  const shmaGraTimestamp = zmanim.sofZmanShma();
+  const tefillaMgaTimeStamp = zmanim.sofZmanTfillaMGA();
+  const tefillaGraTimestamp = zmanim.sofZmanTfilla();
+  
 
   // format the shma and tefilla times based on whether it's today or not
-  const shma = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
-  const tefilla = isToday
-    ? reltativeFormat(tefillaTimestamp)
-    : format(tefillaTimestamp);
+  const shmaMga = isToday ? reltativeFormat(shmaMgaTimestamp) : format(shmaMgaTimestamp);
+  const shmaGra = isToday ? reltativeFormat(shmaGraTimestamp) : format(shmaGraTimestamp);
+  const tefillaMga = isToday ?reltativeFormat(tefillaMgaTimeStamp) :format(tefillaMgaTimeStamp)
+  const tefillaGra = isToday ? reltativeFormat(tefillaGraTimestamp): format(tefillaGraTimestamp);
+  
 
   return {
     day: date.render(),
-    shma,
-    tefilla,
+    shmaMga,
+    shmaGra,
+    tefillaMga,
+    tefillaGra,
   };
 }
