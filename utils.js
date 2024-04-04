@@ -1,6 +1,15 @@
 import dotiw from "dotiw";
 import { Location, Zmanim, HDate ,Sedra } from "@hebcal/core";
 
+
+
+const colorize = (c) => `\x1B[${c}m`;
+const red = colorize(31)
+const green = colorize(32)
+const black = colorize(0)
+
+
+
 const newYork = Location.lookup("New York");
 const today = new HDate();
 const sunday = today.onOrBefore(0);
@@ -50,14 +59,12 @@ export function getZmanimForDay(index) {
   const tefillaTimestamp = zmanim.sofZmanTfilla();
 
   // format the shma and tefilla times based on whether it's today or not
-  const shma = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
-  const tefilla = isToday
-    ? reltativeFormat(tefillaTimestamp)
-    : format(tefillaTimestamp);
+  const shma = isToday ? Date.now()> shmaTimestamp ? red + reltativeFormat(shmaTimestamp) +   black  : green + reltativeFormat(shmaTimestamp) +black : black + format(shmaTimestamp) ;
+  const tefilla = isToday ? Date.now() >tefillaTimestamp  ? red + reltativeFormat(tefillaTimestamp) +   black  : green + reltativeFormat(tefillaTimestamp) + black  :  black +format(tefillaTimestamp);
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   return {
-    day: `${daysOfWeek[date.getDay()]} ${parsha}`,
-    shma,
+    day:  `${daysOfWeek[date.getDay()]} ${parsha}`,
+    shma, shma,
     tefilla,
   };
 }
