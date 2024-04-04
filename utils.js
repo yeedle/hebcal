@@ -1,10 +1,19 @@
 import dotiw from "dotiw";
-import { Location, Zmanim, HDate } from "@hebcal/core";
+import { Location, Zmanim, HDate ,Sedra } from "@hebcal/core";
+
+
+
+const colorize = (c) => `\x1B[${c}m`;
+const red = colorize(31)
+const green = colorize(32)
+const black = colorize(0)
+
+
 
 const newYork = Location.lookup("New York");
 const today = new HDate();
 const sunday = today.onOrBefore(0);
-
+const parsha = new Sedra(today.getFullYear()).lookup(today).parsha
 /**
  * Formats a timestamp as a relative time string.
  * For example, "in 2 hours 3 minutes 4 seconds" or "3 hours 4 minutes 5 seconds ago".
@@ -50,14 +59,13 @@ export function getZmanimForDay(index) {
   const tefillaTimestamp = zmanim.sofZmanTfilla();
 
   // format the shma and tefilla times based on whether it's today or not
-  const shma = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
-  const tefilla = isToday
-    ? reltativeFormat(tefillaTimestamp)
-    : format(tefillaTimestamp);
-
+  const shma = isToday ? Date.now()> shmaTimestamp ? red + reltativeFormat(shmaTimestamp) +   black  : green + reltativeFormat(shmaTimestamp) +black : black + format(shmaTimestamp) ;
+  const tefilla = isToday ? Date.now() >tefillaTimestamp  ? red + reltativeFormat(tefillaTimestamp) +   black  : green + reltativeFormat(tefillaTimestamp) + black  :  black +format(tefillaTimestamp);
+    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   return {
-    day: date.render(),
-    shma,
+    day:  `${daysOfWeek[date.getDay()]} ${parsha}`,
+    shma, shma,
     tefilla,
   };
 }
+
