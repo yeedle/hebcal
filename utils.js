@@ -54,9 +54,10 @@ export function getZmanimForDay(index) {
   const tefilla = isToday
     ? reltativeFormat(tefillaTimestamp)
     : format(tefillaTimestamp);
-
+    const hebrewDate = date.renderGematriya();
+    const reversedHebrewDate = hebrewDate.split('').reverse().join('');
   return {
-    day: date.render(),
+    day: reversedHebrewDate,
     shma,
     tefilla,
   };
