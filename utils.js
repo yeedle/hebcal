@@ -60,7 +60,7 @@ export function getZmanimForDay(index) {
   
 
   return {
-    day: date.render(),
+    day: date.renderGematriya(),
     shmaMga,
     shmaGra,
     tefillaMga,
