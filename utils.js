@@ -50,14 +50,14 @@ export function getZmanimForDay(index) {
   const tefillaTimestamp = zmanim.sofZmanTfilla();
 
   // format the shma and tefilla times based on whether it's today or not
-  const shma = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
+  const shmaMga = isToday ? reltativeFormat(shmaTimestamp) : format(shmaTimestamp);
   const tefilla = isToday
     ? reltativeFormat(tefillaTimestamp)
     : format(tefillaTimestamp);
 
   return {
-    day: date.render(),
-    shma,
+    day: date.renderGematriya(),
+    shmaMga,
     tefilla,
   };
 }
