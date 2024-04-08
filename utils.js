@@ -62,7 +62,8 @@ export function getZmanimForDay(index) {
       : format(tefillaMGATimestamp);
 
   return {
-    day: date.render(),
+    'hebrew Day' : date.renderGematriya(),
+    'hebrew day in eng' : date.render(),
     shmaGRA,
     tefillaGRA,
     shmaMGA,
