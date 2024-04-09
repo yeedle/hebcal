@@ -1,5 +1,5 @@
 # hebcal
-#
+
 This is a NodeJS program that uses the [hebcal](https://github.com/hebcal/hebcal-es6) library to print this week's zmanim to the console.
 
 ## Installation
